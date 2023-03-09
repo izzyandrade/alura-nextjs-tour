@@ -2,12 +2,25 @@ import NextLink from 'next/link'
 import { Box, Text, Image } from '@skynexui/components'
 import dados from '../dados.json'
 
-export default function HomeScreen() {
+export async function getStaticProps() {
+  const data = await fetch(
+    `https://fakeapi-omariosouto.vercel.app/api/posts`,
+  ).then((res) => res.json())
+  const firstFourPosts = data.posts.slice(0, 4)
+
+  return {
+    props: {
+      firstFourPosts,
+    },
+  }
+}
+
+export default function HomeScreen(props) {
   const infos = {
     nome: 'Izzy Andrade',
     githubUser: 'izzyandrade',
   }
-  const posts = dados.posts
+  const posts = props.firstFourPosts
 
   return (
     <Box

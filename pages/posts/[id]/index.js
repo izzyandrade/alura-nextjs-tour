@@ -1,28 +1,36 @@
 import NextLink from 'next/link'
 import { Box, Text } from '@skynexui/components'
 import { useRouter } from 'next/router'
-import dados from '../../../dados.json'
 
 //tell next about the static paths it needs to know about
 // Generates `/posts/1` and `/posts/2`
 export async function getStaticPaths() {
-  const paths = dados.posts.map((post) => {
-    return { params: { id: post.id } }
-  })
+  // const data = await fetch(
+  //   `https://fakeapi-omariosouto.vercel.app/api/posts`,
+  // ).then((res) => res.json())
+  // const paths = data.posts.map((post) => {
+  //   return { params: { id: `${post.id}` } }
+  // })
+  /*
+  the above block of code makes an API request to get a list of posts and use those
+  posts to tell Next how many pages are there, this way next can pre-render those
+  with getStaticProps(), it is commented because we are now showing how to apply
+  Incremental Static Generation (ISG) by using "blocking" as the fallback option
+  */
 
   return {
-    paths,
-    fallback: false, // can also be true or 'blocking'
+    paths: [],
+    fallback: 'blocking', // can also be true or 'blocking'
   }
 }
 
 // `getStaticPaths` requires using `getStaticProps`
 export async function getStaticProps(context) {
   const { id } = context.params
-  const post = dados.posts.find((post) => {
-    if (post.id === id) return true
-    return false
-  })
+  const post = await fetch(
+    `https://fakeapi-omariosouto.vercel.app/api/posts/${id}`,
+  ).then((res) => res.json())
+
   return {
     // Passed to the page component as props
     props: {

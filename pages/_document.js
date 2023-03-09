@@ -15,9 +15,7 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="pt-BR">
-        <Head>
-          <title>Alura Tour NextJS</title>
-        </Head>
+        <Head />
         <body>
           <Main />
           <NextScript />
