@@ -20,6 +20,9 @@ export async function getStaticPaths() {
 
   return {
     paths: [],
+    // We'll pre-render only these paths at build time.
+    // { fallback: 'blocking' } will server-render pages
+    // on-demand if the path doesn't exist.
     fallback: 'blocking', // can also be true or 'blocking'
   }
 }
@@ -35,6 +38,10 @@ export async function getStaticProps(context) {
     // Passed to the page component as props
     props: {
       post,
+      // Next.js will attempt to re-generate the page:
+      // - When a request comes in
+      // - At most once every 10 seconds
+      revalidate: 10,
     },
   }
 }
