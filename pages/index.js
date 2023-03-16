@@ -1,6 +1,8 @@
-import NextLink from 'next/link'
 import { Box, Text, Image } from '@skynexui/components'
+import dynamic from 'next/dynamic'
 import dados from '../dados.json'
+
+const Post = dynamic(() => import('../components/Post'))
 
 export async function getStaticProps() {
   const data = await fetch(
@@ -61,39 +63,6 @@ export default function HomeScreen(props) {
           <Post key={id} title={title} content={content} id={id} />
         ))}
       </Box>
-    </Box>
-  )
-}
-
-function Post({ title, content, id }) {
-  return (
-    <Box
-      styleSheet={{
-        flexDirection: 'column',
-        border: '1px solid #F9703E',
-        padding: '16px',
-        boxShadow: '1px 1px 5px 0 rgba(255,69,0,0.2)',
-        transition: '.3s',
-        borderRadius: '4px',
-        hover: {
-          boxShadow: '1px 1px 5px 5px rgba(255,69,0,0.2)',
-        },
-      }}
-    >
-      <NextLink href={`posts/${id}`} passHref>
-        <Text
-          tag="a"
-          variant="heading4"
-          styleSheet={{
-            display: ' block',
-            color: '#F9703E',
-            marginBottom: '8px',
-          }}
-        >
-          {title}
-        </Text>
-      </NextLink>
-      <Text>{content.substring(0, 140)}...</Text>
     </Box>
   )
 }
