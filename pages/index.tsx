@@ -1,10 +1,11 @@
 import { Box, Text, Image } from '@skynexui/components'
+import { GetStaticProps, GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import dados from '../dados.json'
 
 const Post = dynamic(() => import('../components/Post'))
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
   const data = await fetch(
     `https://fakeapi-omariosouto.vercel.app/api/posts`,
   ).then((res) => res.json())

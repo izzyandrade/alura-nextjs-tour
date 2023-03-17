@@ -1,10 +1,11 @@
 import NextLink from 'next/link'
 import { Box, Text } from '@skynexui/components'
 import { useRouter } from 'next/router'
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
 
 //tell next about the static paths it needs to know about
 // Generates `/posts/1` and `/posts/2`
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = () => {
   // const data = await fetch(
   //   `https://fakeapi-omariosouto.vercel.app/api/posts`,
   // ).then((res) => res.json())
@@ -28,7 +29,7 @@ export async function getStaticPaths() {
 }
 
 // `getStaticPaths` requires using `getStaticProps`
-export async function getStaticProps(context) {
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
   const { id } = context.params
   const post = await fetch(
     `https://fakeapi-omariosouto.vercel.app/api/posts/${id}`,
@@ -46,14 +47,14 @@ export async function getStaticProps(context) {
   }
 }
 
-export default function PostByIdScreen(props) {
+export default function PostByIdScreen(props): JSX.Element {
   // console.log(props);
   const router = useRouter()
   // console.log(router);
   const { post } = props
 
   if (router.isFallback) {
-    return 'Essa página não existe!'
+    return <div>Essa página não existe!</div>
   }
 
   return (

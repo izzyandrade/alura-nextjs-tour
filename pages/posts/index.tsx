@@ -1,5 +1,4 @@
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import dados from '../../dados.json'
 
 interface Post {
@@ -14,7 +13,7 @@ interface Posts {
   posts: Post[]
 }
 
-export const getServerSideProps = (context) => {
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const posts = dados.posts.filter((post) => post.date === context.query.date)
   console.log(context.query)
 
