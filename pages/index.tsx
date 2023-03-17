@@ -17,7 +17,7 @@ export async function getStaticProps() {
   }
 }
 
-export default function HomeScreen(props) {
+export default function HomeScreen(props): JSX.Element {
   const infos = {
     nome: 'Izzy Andrade',
     githubUser: 'izzyandrade',

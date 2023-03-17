@@ -1,4 +1,4 @@
-function Custom404(){
+function Custom404(): JSX.Element {
   return(
     <div>This page does not exist</div>
   )
