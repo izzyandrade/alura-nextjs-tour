@@ -7,7 +7,6 @@ export type ResponseData = {
 
 const handler: NextApiHandler = (req: NextApiRequest, res: NextApiResponse<ResponseData>) => {
   res.status(200).json({ curso: 'next.js', instrutor: 'Dev Soutinho' });
-  console.log("ola");
 }
 
 export default handler;

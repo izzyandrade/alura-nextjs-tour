@@ -8,7 +8,7 @@ export default function Comments(){
       Comments do post  - {router.query.id}
       <hr/>
       <ul>
-        <li><Link href="/">Home</Link></li>
+        <li><Link href="/home">Home</Link></li>
         <li><Link href={`/posts/${router.query.id}`}>Back to Post</Link></li>
       </ul>
     </div>
