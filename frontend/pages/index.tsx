@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { authService } from "../src/services/auth/authService";
 
 export default function AuthScreen() {
   const [username, setUsername] = useState("")
@@ -7,10 +8,17 @@ export default function AuthScreen() {
 
   const router = useRouter()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log("papai")
-    router.push("/home")
+    await authService.login({
+      username,
+      password
+    }).then((res) => {
+      console.log(res);
+      router.push("/home")
+    }).catch(err => {
+      alert(err)
+    })
   }
 
   return (

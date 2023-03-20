@@ -3,7 +3,7 @@ import { GetStaticProps, GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import dados from '../dados.json'
 
-const Post = dynamic(() => import('../components/Post'))
+const Post = dynamic(() => import('../src/components/Post'))
 
 export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
   const data = await fetch(
