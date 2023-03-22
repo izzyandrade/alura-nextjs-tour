@@ -1,7 +1,7 @@
 //TODO transform this to axios
 // Hexagonal Architecture -- Ports and Adapters
 
-interface HttpOptions {
+interface HttpRequest {
   body?: any
   method: string
   headers?: any
@@ -12,11 +12,13 @@ interface HttpResponse {
   ok: boolean
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+
 export async function HttpClient(
   url: string,
-  options: HttpOptions,
+  options: HttpRequest,
 ): Promise<HttpResponse> {
-  return fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`, {
+  return fetch(`${baseUrl + url}`, {
     ...options,
     body: options.body ? JSON.stringify(options.body) : null,
     headers: {
