@@ -1,5 +1,5 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import dados from '../../dados.json'
+import dados from '../../../dados.json'
 
 interface Post {
   id: number,

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { authService } from "../src/services/auth/authService";
+import { authService } from "../services/auth/authService";
 
 export default function AuthScreen() {
   const [username, setUsername] = useState("")
@@ -13,8 +13,7 @@ export default function AuthScreen() {
     await authService.login({
       username,
       password
-    }).then((res) => {
-      console.log(res);
+    }).then(() => {
       router.push("/home")
     }).catch(err => {
       alert(err)

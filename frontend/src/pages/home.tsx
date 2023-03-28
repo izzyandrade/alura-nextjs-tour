@@ -1,41 +1,41 @@
 import { Box, Text, Image } from '@skynexui/components'
-import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import nookies from "nookies"
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from 'next'
 import dynamic from 'next/dynamic'
-import dados from '../dados.json'
-import { tokenService } from '../src/services/auth/tokenService'
+import { authService } from '../services/auth/authService'
+import { withSession } from '../services/auth/sessionDecorator'
 
-const Post = dynamic(() => import('../src/components/Post'))
+const Post = dynamic(() => import('../components/Post'))
 
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const data = await fetch(
-    `https://fakeapi-omariosouto.vercel.app/api/posts`,
-  ).then((res) => res.json())
+export const getServerSideProps = withSession(async (ctx) => {
+  const data = await fetch(`https://fakeapi-omariosouto.vercel.app/api/posts`)
+    .then((res) => res.json())
+    .catch((err) => alert(err))
   const firstFourPosts = data.posts.slice(0, 4)
-
-  const cookies = nookies.get(context);
-  const accessToken = cookies["ACCESS_TOKEN_KEY"]
-
   return {
     props: {
+      session: ctx.req.session,
       firstFourPosts,
-      accessToken
     },
   }
-}
+})
 
-export default function HomeScreen(props): JSX.Element {
+export default function HomeScreen({
+  firstFourPosts,
+  userSession,
+}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
   const infos = {
     nome: 'Izzy Andrade',
     githubUser: 'izzyandrade',
   }
-  const posts = props.firstFourPosts
+  const posts = firstFourPosts
 
   return (
     <>
-      <div>
-        {props.accessToken}
-      </div>
+      <div>{JSON.stringify(userSession)}</div>
       <Box
         styleSheet={{
           flexDirection: 'column',
