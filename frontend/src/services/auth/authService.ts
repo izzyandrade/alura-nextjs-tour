@@ -8,7 +8,7 @@ import { tokenService } from './tokenService'
 
 interface AuthService {
   login: (params: { username: string; password: string }) => Promise<any>
-  getSession: (context: any) => Promise<any>
+  getSession: (context?: any) => Promise<any>
 }
 
 export const authService: AuthService = {
@@ -30,9 +30,8 @@ export const authService: AuthService = {
         throw new Error(err)
       })
   },
-  async getSession(context) {
+  async getSession(context = null) {
     const token = tokenService.get(context)
-    console.log(token)
     return HttpClient(`/api/session`, {
       method: 'GET',
       headers: {
@@ -40,7 +39,6 @@ export const authService: AuthService = {
       },
     })
       .then(async (res) => {
-        console.log(res)
         if (!res.ok) throw new Error('Something went wrong, try again later')
         return res.body.data
       })
