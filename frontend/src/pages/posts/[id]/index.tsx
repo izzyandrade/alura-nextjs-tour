@@ -21,7 +21,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 
   return {
     paths: [],
-    // We'll pre-render only these paths at build time.
+    // We'll pre-render only these paths at build time. In this case, none.
     // { fallback: 'blocking' } will server-render pages
     // on-demand if the path doesn't exist.
     fallback: 'blocking', // can also be true or 'blocking'
@@ -29,7 +29,9 @@ export const getStaticPaths: GetStaticPaths = () => {
 }
 
 // `getStaticPaths` requires using `getStaticProps`
-export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+export const getStaticProps: GetStaticProps = async (
+  context: GetStaticPropsContext,
+) => {
   const { id } = context.params
   const post = await fetch(
     `https://fakeapi-omariosouto.vercel.app/api/posts/${id}`,
@@ -48,9 +50,7 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
 }
 
 export default function PostByIdScreen(props): JSX.Element {
-  // console.log(props);
   const router = useRouter()
-  // console.log(router);
   const { post } = props
 
   if (router.isFallback) {
