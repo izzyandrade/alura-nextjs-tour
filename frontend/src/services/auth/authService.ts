@@ -1,8 +1,3 @@
-import {
-  GetServerSidePropsContext,
-  GetStaticPathsContext,
-  GetStaticPropsContext,
-} from 'next'
 import { HttpClient } from '../../infra/HttpClient/HttpClient'
 import { tokenService } from './tokenService'
 
@@ -25,6 +20,20 @@ export const authService: AuthService = {
         const { body } = res
         tokenService.save(body.data.access_token)
         return body
+      })
+      .then(async ({ data }) => {
+        const { refresh_token } = data
+        const response = await HttpClient(
+          `/api/refresh`,
+          {
+            method: 'POST',
+            body: {
+              refresh_token,
+            },
+          },
+          false,
+        )
+        return data
       })
       .catch((err) => {
         throw new Error(err)
